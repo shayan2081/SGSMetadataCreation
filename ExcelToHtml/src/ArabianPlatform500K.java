@@ -1,6 +1,5 @@
 
-
-import java.io.File; 
+import java.io.File;
 
 import java.io.FileInputStream;
 
@@ -22,1441 +21,1375 @@ import org.apache.poi.ss.usermodel.Cell;
 
 import org.apache.poi.ss.usermodel.CellType;
 
-import org.apache.poi.ss.usermodel.Row; 
+import org.apache.poi.ss.usermodel.Row;
 
-import org.apache.poi.xssf.usermodel.XSSFSheet; 
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
-import org.apache.poi.xssf.usermodel.XSSFWorkbook; 
-
-
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ArabianPlatform500K {
 
-	static String DownloadsPath="";  
+	static String DownloadsPath = "";
 
-                public static void main(String[] args) {
+	public static void main(String[] args) {
 
-                	    
+		try
 
-                                try 
+		{
 
-                                { 
-                                	
-                                	Properties prop = new Properties();
-                        		    String fileName = "\\src\\config.properties";
-                        		    InputStream is = new FileInputStream(System.getProperty("user.dir")+fileName);
-                        		    prop.load(is);
-                        		    DownloadsPath = (String) prop.get("DownloadsPath");
+			Properties prop = new Properties();
+			String fileName = "\\src\\config.properties";
+			InputStream is = new FileInputStream(System.getProperty("user.dir") + fileName);
+			prop.load(is);
+			DownloadsPath = (String) prop.get("DownloadsPath");
 
-                                                List<String> GeneralDatasetColumnsFirstRow = new ArrayList<String>();
+			List<String> GeneralDatasetColumnsFirstRow = new ArrayList<String>();
 
-                                                List<String> GeneralDatasetColumnsSecondRow = new ArrayList<String>();
+			List<String> GeneralDatasetColumnsSecondRow = new ArrayList<String>();
 
-                                                List<String> GeneralDatasetValues = new ArrayList<String>();                                     
+			List<String> GeneralDatasetValues = new ArrayList<String>();
 
-                                               
+			File file = new File(DownloadsPath + "minimum_metadata_profile_SGS.xlsx");
 
-                                                File file = new File(DownloadsPath+"minimum_metadata_profile_SGS.xlsx");
+			FileInputStream fis = new FileInputStream(file);
 
-                                                FileInputStream fis = new FileInputStream(file);
+			XSSFWorkbook wb = new XSSFWorkbook(fis);
 
-                                                XSSFWorkbook wb = new XSSFWorkbook(fis);  
+			XSSFSheet sheet = wb.getSheetAt(0);
 
-                                                XSSFSheet sheet = wb.getSheetAt(0);
+			Iterator<Row> itr = sheet.iterator();
 
-                                                Iterator<Row> itr = sheet.iterator();
+			Row row = sheet.getRow(0); // First Row
 
+			Iterator<Cell> cellIterator = row.cellIterator();
 
-                                                Row row = sheet.getRow(0);  //First Row
+			int total = 25;
 
-                                                Iterator<Cell> cellIterator = row.cellIterator();
+			int count = 0;
 
+			while (count < total) {
 
-                                                int total = 25;
+				if (row.getCell(count) != null)
 
-                                                int count= 0;
+					GeneralDatasetColumnsFirstRow.add("" + row.getCell(count).getStringCellValue());
 
-                                                while(count<total) {
+				else
 
-                                                                if(row.getCell(count) != null)
+					GeneralDatasetColumnsFirstRow.add("");
 
-                                                                                GeneralDatasetColumnsFirstRow.add(""+row.getCell(count).getStringCellValue());
+				count++;
 
-                                                                else
+			}
 
-                                                                                GeneralDatasetColumnsFirstRow.add("");
+			row = sheet.getRow(1); // Second Row
 
-                                                                count++;
+			count = 0;
 
-                                                }
+			while (count < total) {
 
+				if (row.getCell(count) != null)
 
-                                                row = sheet.getRow(1);  //Second Row
+					GeneralDatasetColumnsSecondRow.add("" + row.getCell(count).getStringCellValue());
 
-                                                count= 0;
+				else
 
-                                                while(count<total) {
+					GeneralDatasetColumnsSecondRow.add("");
 
-                                                                if(row.getCell(count) != null)
+				count++;
 
-                                                                                GeneralDatasetColumnsSecondRow.add(""+row.getCell(count).getStringCellValue());
+			}
 
-                                                                else
+			row = sheet.getRow(3); // Fourth Row
 
-                                                                                GeneralDatasetColumnsSecondRow.add("");
+			count = 0;
 
-                                                                count++;
+			while (count < total) {
 
-                                                }
+				if (row.getCell(count) != null)
 
-                                                
-                                                
-                                                row = sheet.getRow(3); // Fourth Row
+					GeneralDatasetValues.add("" + row.getCell(count).getStringCellValue());
 
-                                                count= 0;
+				else
 
-                                                while(count<total) {
+					GeneralDatasetValues.add("");
 
-                                                                if(row.getCell(count) != null)
+				count++;
 
-                                                                                GeneralDatasetValues.add(""+row.getCell(count).getStringCellValue());
+			}
 
-                                                                else
+			StringBuilder GeneralDatasetInformation = new StringBuilder("");
 
-                                                                                GeneralDatasetValues.add("");
+			for (int i = 0; i < total; i++) {
 
-                                                                count++;
+				if (GeneralDatasetValues.get(i) != "") {
+					if (GeneralDatasetColumnsSecondRow.get(i).equals("Access constraints")) {
 
-                                                }                                             
+						GeneralDatasetInformation.append(
+								"<div class=\"propertyLabel\"><span class=\"propertyLabelSpan\">Package Version</span></div>\r\n"
 
-                                               
+										+ "<div class=\"propertyValue\">1.0</div>\r\n"
 
-                                               StringBuilder GeneralDatasetInformation = new StringBuilder("");
-                                                
-                                               for(int i=0; i<total; i++) {
+										+ "<div class=\"propertyLabel\"><span class=\"propertyLabelSpan\">Package Date</span></div>\r\n"
 
-                                               	if(GeneralDatasetValues.get(i)!="") {
-                                               		if(GeneralDatasetColumnsSecondRow.get(i).equals("Access constraints")) {
+										+ "<div class=\"propertyValue\">31/10/2021</div>\r\n");
 
-                                                       	GeneralDatasetInformation.append("<div class=\"propertyLabel\"><span class=\"propertyLabelSpan\">Package Version</span></div>\r\n"
+					}
 
-                                                                                                       + "<div class=\"propertyValue\">1.0</div>\r\n"
+					if (GeneralDatasetColumnsSecondRow.get(i).equals(""))
 
-                                                                                                      
+						GeneralDatasetInformation
+								.append("<div class=\"propertyLabel\"><span class=\"propertyLabelSpan\">"
+										+ GeneralDatasetColumnsFirstRow.get(i) + "</span></div>\r\n"
 
-                                                                                                       + "<div class=\"propertyLabel\"><span class=\"propertyLabelSpan\">Package Date</span></div>\r\n"
+										+ "<div class=\"propertyValue\">" + GeneralDatasetValues.get(i) + "</div>\r\n");
 
-                                                                                                       + "<div class=\"propertyValue\">31/10/2021</div>\r\n");
+					else
 
-                                                       }
+						GeneralDatasetInformation
+								.append("<div class=\"propertyLabel\"><span class=\"propertyLabelSpan\">"
+										+ GeneralDatasetColumnsSecondRow.get(i) + "</span></div>\r\n"
 
-                                                      
+										+ "<div class=\"propertyValue\">" + GeneralDatasetValues.get(i) + "</div>\r\n");
+				}
 
-                                                       if(GeneralDatasetColumnsSecondRow.get(i).equals(""))
+			}
 
-                                                       	GeneralDatasetInformation.append("<div class=\"propertyLabel\"><span class=\"propertyLabelSpan\">"+GeneralDatasetColumnsFirstRow.get(i)+"</span></div>\r\n"
+			itr.next();
 
-                                                                                                       + "<div class=\"propertyValue\">"+GeneralDatasetValues.get(i)+"</div>\r\n");
+			wb.close();
 
-                                                       else
+			/////////////////////////////////////////////////////////////////////
 
-                                                       	GeneralDatasetInformation.append("<div class=\"propertyLabel\"><span class=\"propertyLabelSpan\">"+GeneralDatasetColumnsSecondRow.get(i)+"</span></div>\r\n"
+			StringBuilder DataFieldsDescriptionTable = new StringBuilder();
 
-                                                                                                       + "<div class=\"propertyValue\">"+GeneralDatasetValues.get(i)+"</div>\r\n");
-                                               	}
-                                                   
+			file = new File(DownloadsPath + "FINAL_GM_Field Descriptions_Metadata_edited_by_GTK-SGS.xlsx");
 
-                                               }
-                                                
-                                                itr.next();
+			fis = new FileInputStream(file);
 
-                                                wb.close();
+			wb = new XSSFWorkbook(fis);
 
-                                               
+			sheet = wb.getSheetAt(2);
 
-                                                /////////////////////////////////////////////////////////////////////
+			itr = sheet.iterator();
 
-                                               
+			itr.next(); // Leave 1st line
 
-                                                StringBuilder DataFieldsDescriptionTable = new StringBuilder();
+			while (itr.hasNext())
 
-                                               
+			{
 
-                                                file = new File(DownloadsPath+"FINAL_GM_Field Descriptions_Metadata_edited_by_GTK-SGS.xlsx");
+				row = itr.next();
 
-                                                fis = new FileInputStream(file);
+				cellIterator = row.cellIterator();
 
-                                                wb = new XSSFWorkbook(fis);  
+				DataFieldsDescriptionTable.append("<tr>");
 
-                                                sheet = wb.getSheetAt(2);
+				while (cellIterator.hasNext())
 
-                                                itr = sheet.iterator();
+				{
 
-                                                itr.next();                                            //Leave 1st line
-                                                
-                                               
+					DataFieldsDescriptionTable.append("<td>");
 
-                                                while (itr.hasNext())                
+					DataFieldsDescriptionTable.append(cellIterator.next().getStringCellValue());
 
-                                                { 
+					DataFieldsDescriptionTable.append("</td>");
 
-                                                                row = itr.next();
+				}
 
-                                                                cellIterator = row.cellIterator();
+				DataFieldsDescriptionTable.append("</tr>");
 
-                                                                DataFieldsDescriptionTable.append("<tr>");
+			}
 
-                                                                while (cellIterator.hasNext())  
+			wb.close();
 
-                                                                {
+			/////////////////////////////////////////////////////////////////////
 
-                                                                                DataFieldsDescriptionTable.append("<td>");
+			file = new File(DownloadsPath + "NGD_Download_Dataset_Packages.xlsx");
 
-                                                                                DataFieldsDescriptionTable.append(cellIterator.next().getStringCellValue());
+			fis = new FileInputStream(file);
 
-                                                                                DataFieldsDescriptionTable.append("</td>");
+			wb = new XSSFWorkbook(fis);
 
-                                                                }
+			sheet = wb.getSheetAt(2);
 
-                                                                DataFieldsDescriptionTable.append("</tr>");
+			itr = sheet.iterator();
 
-                                                }
+			row = itr.next(); // first row (Headings Column)
 
-                                               
+			List<String> DatasetInformationFirstRow = new ArrayList<String>();
 
-                                                wb.close();
+			cellIterator = row.cellIterator();
+			total = row.getPhysicalNumberOfCells();
+			count = 0;
+			while (count < total) {
+				if (row.getCell(count) != null)
+					DatasetInformationFirstRow.add("" + row.getCell(count).getStringCellValue());
+				else
+					DatasetInformationFirstRow.add("");
+				count++;
+			}
 
+			while (itr.hasNext()) {
+				row = itr.next();
+				createHtmlFile(row, DatasetInformationFirstRow, GeneralDatasetInformation, DataFieldsDescriptionTable);
+			}
 
-                                               /////////////////////////////////////////////////////////////////////
+			wb.close();
 
-                                                file = new File(DownloadsPath+"NGD_Download_Dataset_Packages.xlsx");
+		}
 
-                                                fis = new FileInputStream(file);
+		catch (Exception e)
 
-                                                wb = new XSSFWorkbook(fis);  
+		{
 
-                                                sheet = wb.getSheetAt(2);
+			e.printStackTrace();
 
-                                                itr = sheet.iterator(); 
+		}
 
-                                                row = itr.next();                                            //first row (Headings Column)
-                                                
-                                                List<String> DatasetInformationFirstRow = new ArrayList<String>();
-                                                
-                                                cellIterator = row.cellIterator();
-                                                total = row.getPhysicalNumberOfCells();
-                                                count= 0;
-                                                while(count<total) {
-                                                    if(row.getCell(count) != null)
-                                                    	DatasetInformationFirstRow.add(""+row.getCell(count).getStringCellValue());
-                                                    else
-                                                    	DatasetInformationFirstRow.add("");
-                                                    count++;
-                                                }
+	}
 
-                                                while (itr.hasNext())
-                                                { 
-                                                                row = itr.next();
-                                                                createHtmlFile(row, DatasetInformationFirstRow, GeneralDatasetInformation, DataFieldsDescriptionTable);
-                                                }
+	public static void createHtmlFile(Row row, List<String> DatasetInformationFirstRow,
+			StringBuilder GeneralDatasetInformation, StringBuilder DataFieldsDescriptionTable)
 
-                                                wb.close();
+	{
 
-                                } 
+		Iterator<Cell> cellIterator = row.cellIterator();
 
-                                catch(Exception e) 
+		List<String> columns = new ArrayList<String>();
 
-                                { 
+		while (cellIterator.hasNext())
 
-                                                e.printStackTrace(); 
+		{
 
-                                }
+			Cell cell = cellIterator.next();
 
+			if (cell.getCellType() == CellType.NUMERIC)
 
+				columns.add(String.valueOf((int) cell.getNumericCellValue()));
 
-                }
+			else
 
-               
+				columns.add(cell.getStringCellValue());
 
-                public static void createHtmlFile(Row row, List<String> DatasetInformationFirstRow, StringBuilder GeneralDatasetInformation, StringBuilder DataFieldsDescriptionTable)
+		}
 
-                {                             
+		try {
 
-                                Iterator<Cell> cellIterator = row.cellIterator();
+			File newFile = new File("c:\\Html Files\\DS_500K\\" + columns.get(0));
+			newFile.mkdirs();
+			OutputStream htmlfile = new FileOutputStream(
+					new File("c:\\Html Files\\DS_500K\\" + columns.get(0) + "\\" + columns.get(0) + "_Metadata.html"));
 
-                                List<String> columns = new ArrayList<String>();
+			File wordfile = new File(DownloadsPath + "SGS-NGD DATA PRIVACY AGREEMENT.pdf");
 
-                               
+			Files.copy(wordfile.toPath(),
+					new File("c:\\Html Files\\DS_500K\\" + columns.get(0) + "\\SGS-NGD DATA PRIVACY AGREEMENT.pdf")
+							.toPath(),
+					StandardCopyOption.REPLACE_EXISTING);
 
-                                while (cellIterator.hasNext())  
+			PrintStream printhtml = new PrintStream(htmlfile);
 
-                                {
+			String htmlheader = "<html><head>";
 
-                                               Cell cell = cellIterator.next();
+			htmlheader += "<title>Metadata</title> <style type=\"text/css\">\r\n"
 
-                                               
+					+ "\r\n"
 
-                                                if(cell.getCellType() == CellType.NUMERIC)
+					+ "               \r\n"
 
-                                                                columns.add(String.valueOf((int)cell.getNumericCellValue()));
+					+ "\r\n"
 
-                                                else
+					+ "* { font-family: verdana,arial,sans-serif; font-size: 11px; line-height:150%; }\r\n"
 
-                                                                columns.add(cell.getStringCellValue());
+					+ "          h1 { font-size:16px; }\r\n"
 
-                                }
+					+ "          .header { background-color: #1C9495; color:#ffffff; font-weight: bold; }\r\n"
 
-                                                               
+					+ "          .body { background-color: #FFFFFF; font-family: verdana,arial,sans-serif; font-size: 11px; line-height:150%; }\r\n"
 
-                                try {
+					+ "          .title { text-align: left; min-width:100px; padding-left:15px; }\r\n"
 
-                                               
+					+ "          .envelope { border-width: 0px; border-collapse: collapse; margin:0px; padding:0px; width:700px; }\r\n"
 
-                                	File newFile = new File("c:\\Html Files\\DS_500K\\"+columns.get(0));
-                    				newFile.mkdirs();
-                                    OutputStream htmlfile= new FileOutputStream(new File("c:\\Html Files\\DS_500K\\"+columns.get(0)+"\\"+columns.get(0)+"_Metadata.html"));
-                                    
-                                    File wordfile = new File(DownloadsPath+"SGS-NGD DATA PRIVACY AGREEMENT.pdf");
-                                    
-                                    Files.copy(wordfile.toPath(), new File("c:\\Html Files\\DS_500K\\"+columns.get(0)+"\\SGS-NGD DATA PRIVACY AGREEMENT.pdf").toPath(),StandardCopyOption.REPLACE_EXISTING);
+					+ "          .envelope td { border:1px solid #126363; padding: 2px 7px 2px 7px; vertical-align:top; }\r\n"
 
-            PrintStream printhtml = new PrintStream(htmlfile);
+					+ "          .fontss {font-color:white; font-family:verdana,arial,sans-serif; font-size:11px; font-weight:bold; position:relative;}\r\n"
 
-           
+					+ "          a:link {color: #000000; text-decoration: underline;}\r\n"
 
-            String htmlheader="<html><head>";
+					+ "          a:active {color: #0000ff; text-decoration: underline;}\r\n"
 
-            htmlheader+="<title>Metadata</title> <style type=\"text/css\">\r\n"
+					+ "          a:visited {color: #008000; text-decoration: underline;}\r\n"
 
-                               + "\r\n"
+					+ "          a:hover {color: #ff0000; text-decoration: none;}\r\n"
 
-                               + "               \r\n"
+					+ "          .textTitleHead {color:#000; font-family:verdana,arial,sans-serif; font-size:11px; font-weight:bold;}\r\n"
 
-                               + "\r\n"
+					+ "          .textTitle {color:#000; font-family:verdana,arial,sans-serif; font-size:11px;}\r\n"
 
-                               + "* { font-family: verdana,arial,sans-serif; font-size: 11px; line-height:150%; }\r\n"
+					+ "          .spanBold {color:black; font-family:verdana,arial,sans-serif; font-size:11px; font-weight:bold;}\r\n"
 
-                               + "          h1 { font-size:16px; }\r\n"
+					+ "          .text8 {color:black; font-family:verdana,arial,sans-serif; font-size:11px;}\r\n"
 
-                               + "          .header { background-color: #1C9495; color:#ffffff; font-weight: bold; }\r\n"
+					+ "          h4.textSekcji {font-family:verdana,arial,sans-serif; font-size:11px; font-weight:bold; text-decoration:underline; background:#CCC; margin-top:10px; margin-bottom:0px; padding:1px;}\r\n"
 
-                               + "          .body { background-color: #FFFFFF; font-family: verdana,arial,sans-serif; font-size: 11px; line-height:150%; }\r\n"
+					+ "          .columnStyle{font-family:verdana,arial,sans-serif; font-size:11px; clolor:black; font-weight:bold}\r\n"
 
-                               + "          .title { text-align: left; min-width:100px; padding-left:15px; }\r\n"
+					+ "    #main_table {margin-left:10px; width:95%;} \r\n"
 
-                               + "          .envelope { border-width: 0px; border-collapse: collapse; margin:0px; padding:0px; width:700px; }\r\n"
+					+ "    th {background:#DDD;}\r\n"
 
-                               + "          .envelope td { border:1px solid #126363; padding: 2px 7px 2px 7px; vertical-align:top; }\r\n"
+					+ "    span.menu {font-size:16px;}\r\n"
 
-                               + "          .fontss {font-color:white; font-family:verdana,arial,sans-serif; font-size:11px; font-weight:bold; position:relative;}\r\n"
+					+ "    span.maintitle {font-size:18px; font-weight:bold;}\r\n"
 
-                               + "          a:link {color: #000000; text-decoration: underline;}\r\n"
+					+ "    td.bline {border-top:1px solid #CCC; height:20px;}\r\n"
 
-                               + "          a:active {color: #0000ff; text-decoration: underline;}\r\n"
+					+ "    ul {margin-bottom:0px; margin-top:0px;}\r\n"
 
-                               + "          a:visited {color: #008000; text-decoration: underline;}\r\n"
+					+ "    ul li, ul li span {margin-top:0px; margin bottom:0px; line-height:150%;}\r\n"
 
-                               + "          a:hover {color: #ff0000; text-decoration: none;}\r\n"
+					+ "    \r\n"
 
-                               + "          .textTitleHead {color:#000; font-family:verdana,arial,sans-serif; font-size:11px; font-weight:bold;}\r\n"
+					+ "\r\n"
 
-                               + "          .textTitle {color:#000; font-family:verdana,arial,sans-serif; font-size:11px;}\r\n"
+					+ "              *{\r\n"
 
-                               + "          .spanBold {color:black; font-family:verdana,arial,sans-serif; font-size:11px; font-weight:bold;}\r\n"
+					+ "              font-family: Arial !important;\r\n"
 
-                               + "          .text8 {color:black; font-family:verdana,arial,sans-serif; font-size:11px;}\r\n"
+					+ "              font-size: 11px;\r\n"
 
-                               + "          h4.textSekcji {font-family:verdana,arial,sans-serif; font-size:11px; font-weight:bold; text-decoration:underline; background:#CCC; margin-top:10px; margin-bottom:0px; padding:1px;}\r\n"
+					+ "              cursor: default;\r\n"
 
-                               + "          .columnStyle{font-family:verdana,arial,sans-serif; font-size:11px; clolor:black; font-weight:bold}\r\n"
+					+ "              }\r\n"
 
-                               + "    #main_table {margin-left:10px; width:95%;} \r\n"
+					+ "\r\n"
 
-                               + "    th {background:#DDD;}\r\n"
+					+ "              body {\r\n"
 
-                               + "    span.menu {font-size:16px;}\r\n"
+					+ "              font-family:Arial !important;\r\n"
 
-                               + "    span.maintitle {font-size:18px; font-weight:bold;}\r\n"
+					+ "              font-size: 11px;\r\n"
 
-                               + "    td.bline {border-top:1px solid #CCC; height:20px;}\r\n"
+					+ "              cursor: default;\r\n"
 
-                               + "    ul {margin-bottom:0px; margin-top:0px;}\r\n"
+					+ "              background-color:white;\r\n"
 
-                               + "    ul li, ul li span {margin-top:0px; margin bottom:0px; line-height:150%;}\r\n"
+					+ "              margin: 5px;\r\n"
 
-                               + "    \r\n"
+					+ "              color: #545559;\r\n"
 
-                               + "\r\n"
+					+ "              }\r\n"
 
-                               + "              *{\r\n"
+					+ "\r\n"
 
-                               + "              font-family: Arial !important;\r\n"
+					+ "              .title{\r\n"
 
-                               + "              font-size: 11px;\r\n"
+					+ "              color: #0097BA;\r\n"
 
-                               + "              cursor: default;\r\n"
+					+ "              padding-top:3px;\r\n"
 
-                               + "              }\r\n"
+					+ "              }\r\n"
 
-                               + "\r\n"
+					+ "\r\n"
 
-                               + "              body {\r\n"
+					+ "              .divTableOfContents {\r\n"
 
-                               + "              font-family:Arial !important;\r\n"
+					+ "              color: #0097ba;\r\n"
 
-                               + "              font-size: 11px;\r\n"
+					+ "              margin: 15px;\r\n"
 
-                               + "              cursor: default;\r\n"
+					+ "              }\r\n"
 
-                               + "              background-color:white;\r\n"
+					+ "\r\n"
 
-                               + "              margin: 5px;\r\n"
+					+ "              td.bline {\r\n"
 
-                               + "              color: #545559;\r\n"
+					+ "              border-top: 1px dotted #CCC;\r\n"
 
-                               + "              }\r\n"
+					+ "              height:0px;\r\n"
 
-                               + "\r\n"
+					+ "              }\r\n"
 
-                               + "              .title{\r\n"
+					+ "\r\n"
 
-                               + "              color: #0097BA;\r\n"
+					+ "              .ulTableOfContents{\r\n"
 
-                               + "              padding-top:3px;\r\n"
+					+ "              margin-bottom: 0px;\r\n"
 
-                               + "              }\r\n"
+					+ "              margin-top: 0px;\r\n"
 
-                               + "\r\n"
+					+ "              list-style-type: square;\r\n"
 
-                               + "              .divTableOfContents {\r\n"
+					+ "              }\r\n"
 
-                               + "              color: #0097ba;\r\n"
+					+ "\r\n"
 
-                               + "              margin: 15px;\r\n"
+					+ "              .ulTableOfContents li a:link {\r\n"
 
-                               + "              }\r\n"
+					+ "              color: #0097ba;\r\n"
 
-                               + "\r\n"
+					+ "              text-decoration: underline;\r\n"
 
-                               + "              td.bline {\r\n"
+					+ "              font-size: 12px;\r\n"
 
-                               + "              border-top: 1px dotted #CCC;\r\n"
+					+ "              cursor: hand;\r\n"
 
-                               + "              height:0px;\r\n"
+					+ "              }\r\n"
 
-                               + "              }\r\n"
+					+ "\r\n"
 
-                               + "\r\n"
+					+ "              .ulTableOfContents li a:visited {\r\n"
 
-                               + "              .ulTableOfContents{\r\n"
+					+ "              color: #0097ba;\r\n"
 
-                               + "              margin-bottom: 0px;\r\n"
+					+ "              }\r\n"
 
-                               + "              margin-top: 0px;\r\n"
+					+ "\r\n"
 
-                               + "              list-style-type: square;\r\n"
+					+ "              .ulTableOfContents li a:hover {\r\n"
 
-                               + "              }\r\n"
+					+ "              color: #7FAF42;\r\n"
 
-                               + "\r\n"
+					+ "              }\r\n"
 
-                               + "              .ulTableOfContents li a:link {\r\n"
+					+ "\r\n"
 
-                               + "              color: #0097ba;\r\n"
+					+ "              .ulTableOfContents li a:active {\r\n"
 
-                               + "              text-decoration: underline;\r\n"
+					+ "              color: #BAD879;\r\n"
 
-                               + "              font-size: 12px;\r\n"
+					+ "              }\r\n"
 
-                               + "              cursor: hand;\r\n"
+					+ "\r\n"
 
-                               + "              }\r\n"
+					+ "              .divTableOfContents h4 {\r\n"
 
-                               + "\r\n"
+					+ "              font-size: 14px;\r\n"
 
-                               + "              .ulTableOfContents li a:visited {\r\n"
+					+ "              padding: 0px;\r\n"
 
-                               + "              color: #0097ba;\r\n"
+					+ "              margin: 5px;\r\n"
 
-                               + "              }\r\n"
+					+ "              }\r\n"
 
-                               + "\r\n"
+					+ "\r\n"
 
-                               + "              .ulTableOfContents li a:hover {\r\n"
+					+ "              .sectionDiv{\r\n"
 
-                               + "              color: #7FAF42;\r\n"
+					+ "              width:100%;\r\n"
 
-                               + "              }\r\n"
+					+ "              }\r\n"
 
-                               + "\r\n"
+					+ "\r\n"
 
-                               + "              .ulTableOfContents li a:active {\r\n"
+					+ "              .sectionHeaderDiv {\r\n"
 
-                               + "              color: #BAD879;\r\n"
+					+ "              background-color: #0097BA;\r\n"
 
-                               + "              }\r\n"
+					+ "              color: white;\r\n"
 
-                               + "\r\n"
+					+ "              padding-left: 5px;\r\n"
 
-                               + "              .divTableOfContents h4 {\r\n"
+					+ "              width: 100%;\r\n"
 
-                               + "              font-size: 14px;\r\n"
+					+ "              }\r\n"
 
-                               + "              padding: 0px;\r\n"
+					+ "\r\n"
 
-                               + "              margin: 5px;\r\n"
+					+ "              .sectionHeaderDiv h4 {\r\n"
 
-                               + "              }\r\n"
+					+ "              padding:3px;\r\n"
 
-                               + "\r\n"
+					+ "              font-size: 14px;\r\n"
 
-                               + "              .sectionDiv{\r\n"
+					+ "              margin-bottom: 5px;\r\n"
 
-                               + "              width:100%;\r\n"
+					+ "              }\r\n"
 
-                               + "              }\r\n"
+					+ "\r\n"
 
-                               + "\r\n"
+					+ "              .sectionBodyDiv{\r\n"
 
-                               + "              .sectionHeaderDiv {\r\n"
+					+ "\r\n"
 
-                               + "              background-color: #0097BA;\r\n"
+					+ "              }\r\n"
 
-                               + "              color: white;\r\n"
+					+ "\r\n"
 
-                               + "              padding-left: 5px;\r\n"
+					+ "              .backDiv{\r\n"
 
-                               + "              width: 100%;\r\n"
+					+ "              text-align:right;\r\n"
 
-                               + "              }\r\n"
+					+ "              padding-top:5px;\r\n"
 
-                               + "\r\n"
+					+ "              padding-bottom:5px;\r\n"
 
-                               + "              .sectionHeaderDiv h4 {\r\n"
+					+ "              padding-right:5px;\r\n"
 
-                               + "              padding:3px;\r\n"
+					+ "              color: #0097ba;\r\n"
 
-                               + "              font-size: 14px;\r\n"
+					+ "              }\r\n"
 
-                               + "              margin-bottom: 5px;\r\n"
+					+ "\r\n"
 
-                               + "              }\r\n"
+					+ "              .backDiv a{\r\n"
 
-                               + "\r\n"
+					+ "              color: #0097ba;\r\n"
 
-                               + "              .sectionBodyDiv{\r\n"
+					+ "              font-size:11px;\r\n"
 
-                               + "\r\n"
+					+ "              font-family: Arial !important;\r\n"
 
-                               + "              }\r\n"
+					+ "              cursor:hand;\r\n"
 
-                               + "\r\n"
+					+ "              }\r\n"
 
-                               + "              .backDiv{\r\n"
+					+ "\r\n"
 
-                               + "              text-align:right;\r\n"
+					+ "              .backDiv a:visited{\r\n"
 
-                               + "              padding-top:5px;\r\n"
+					+ "              color: #0097ba;\r\n"
 
-                               + "              padding-bottom:5px;\r\n"
+					+ "              }\r\n"
 
-                               + "              padding-right:5px;\r\n"
+					+ "\r\n"
 
-                               + "              color: #0097ba;\r\n"
+					+ "              .backDiv a:hover{\r\n"
 
-                               + "              }\r\n"
+					+ "              color: #7FAF42;\r\n"
 
-                               + "\r\n"
+					+ "              }\r\n"
 
-                               + "              .backDiv a{\r\n"
+					+ "\r\n"
 
-                               + "              color: #0097ba;\r\n"
+					+ "              .backDiv a:active{\r\n"
 
-                               + "              font-size:11px;\r\n"
+					+ "              color: #BAD879;\r\n"
 
-                               + "              font-family: Arial !important;\r\n"
+					+ "              }\r\n"
 
-                               + "              cursor:hand;\r\n"
+					+ "\r\n"
 
-                               + "              }\r\n"
+					+ "\r\n"
 
-                              + "\r\n"
+					+ "              /***************************** SubSection *******************************************/\r\n"
 
-                               + "              .backDiv a:visited{\r\n"
+					+ "\r\n"
 
-                               + "              color: #0097ba;\r\n"
+					+ "              /*Subsection level 1*/\r\n"
 
-                               + "              }\r\n"
+					+ "              div.sectionDiv div.sectionBodyDiv div.subSection{\r\n"
 
-                               + "\r\n"
+					+ "              margin-left:15px;\r\n"
 
-                               + "              .backDiv a:hover{\r\n"
+					+ "              margin-right:15px;\r\n"
 
-                               + "              color: #7FAF42;\r\n"
+					+ "              border: none;\r\n"
 
-                               + "              }\r\n"
+					+ "              margin-top:0px;\r\n"
 
-                               + "\r\n"
+					+ "              }\r\n"
 
-                               + "              .backDiv a:active{\r\n"
+					+ "\r\n"
 
-                               + "              color: #BAD879;\r\n"
+					+ "              /*Subsection level 2*/\r\n"
 
-                               + "              }\r\n"
+					+ "              div.sectionDiv div.sectionBodyDiv div.subSection div.subSectionBody div.subSection {\r\n"
 
-                               + "\r\n"
+					+ "              margin-left:15px;\r\n"
 
-                               + "\r\n"
+					+ "              margin-right:15px;\r\n"
 
-                               + "              /***************************** SubSection *******************************************/\r\n"
+					+ "              border: none;\r\n"
 
-                               + "\r\n"
+					+ "              margin-top:0px;\r\n"
 
-                               + "              /*Subsection level 1*/\r\n"
+					+ "              }\r\n"
 
-                               + "              div.sectionDiv div.sectionBodyDiv div.subSection{\r\n"
+					+ "\r\n"
 
-                               + "              margin-left:15px;\r\n"
+					+ "              /*Subsection level 3*/\r\n"
 
-                               + "              margin-right:15px;\r\n"
+					+ "              div.sectionDiv div.sectionBodyDiv div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection{\r\n"
 
-                               + "              border: none;\r\n"
+					+ "              margin-left:15px;\r\n"
 
-                               + "              margin-top:0px;\r\n"
+					+ "              margin-right:15px;\r\n"
 
-                               + "              }\r\n"
+					+ "              border:1px dotted;\r\n"
 
-                               + "\r\n"
+					+ "              margin-top:2px;\r\n"
 
-                               + "              /*Subsection level 2*/\r\n"
+					+ "              }\r\n"
 
-                               + "              div.sectionDiv div.sectionBodyDiv div.subSection div.subSectionBody div.subSection {\r\n"
+					+ "\r\n"
 
-                               + "              margin-left:15px;\r\n"
+					+ "              /*Subsection level 4*/\r\n"
 
-                               + "              margin-right:15px;\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection {\r\n"
 
-                               + "              border: none;\r\n"
+					+ "              margin-left:15px;\r\n"
 
-                               + "              margin-top:0px;\r\n"
+					+ "              margin-right:15px;\r\n"
 
-                               + "              }\r\n"
+					+ "              border: none;\r\n"
 
-                               + "\r\n"
+					+ "              margin-top:0px;\r\n"
 
-                               + "              /*Subsection level 3*/\r\n"
+					+ "              }\r\n"
 
-                               + "              div.sectionDiv div.sectionBodyDiv div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection{\r\n"
+					+ "\r\n"
 
-                               + "              margin-left:15px;\r\n"
+					+ "              /*Subsection level = 5*/\r\n"
 
-                               + "              margin-right:15px;\r\n"
+					+ "              div.subSection {\r\n"
 
-                               + "              border:1px dotted;\r\n"
+					+ "              margin-left:15px;\r\n"
 
-                               + "              margin-top:2px;\r\n"
+					+ "              margin-right:15px;\r\n"
 
-                               + "              }\r\n"
+					+ "              border: none;\r\n"
 
-                               + "\r\n"
+					+ "              margin-top:0px;\r\n"
 
-                               + "              /*Subsection level 4*/\r\n"
+					+ "              }\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection {\r\n"
+					+ "\r\n"
 
-                               + "              margin-left:15px;\r\n"
+					+ "              /***************************** SubSection Header *******************************************/\r\n"
 
-                               + "              margin-right:15px;\r\n"
+					+ "\r\n"
 
-                               + "              border: none;\r\n"
+					+ "              /*SubSection Header level 1*/\r\n"
 
-                               + "              margin-top:0px;\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionHeader{\r\n"
 
-                               + "              }\r\n"
+					+ "              background-color: #85CDDB;\r\n"
 
-                               + "\r\n"
+					+ "              border: none;\r\n"
 
-                               + "              /*Subsection level = 5*/\r\n"
+					+ "              color: white;\r\n"
 
-                               + "              div.subSection {\r\n"
+					+ "              font-size:13px;\r\n"
 
-                               + "              margin-left:15px;\r\n"
+					+ "              font-weight:bold;\r\n"
 
-                               + "              margin-right:15px;\r\n"
+					+ "              padding-left: 5px;\r\n"
 
-                               + "              border: none;\r\n"
+					+ "              }\r\n"
 
-                               + "              margin-top:0px;\r\n"
+					+ "\r\n"
 
-                               + "              }\r\n"
+					+ "              /*SubSection Header level 2*/\r\n"
 
-                               + "\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionHeader{\r\n"
 
-                               + "              /***************************** SubSection Header *******************************************/\r\n"
+					+ "              background-color: #f5f5f5;\r\n"
 
-                               + "\r\n"
+					+ "              border:1px solid #e6e6e6;\r\n"
 
-                               + "              /*SubSection Header level 1*/\r\n"
+					+ "              color: #545559;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionHeader{\r\n"
+					+ "              font-size:12px;\r\n"
 
-                               + "              background-color: #85CDDB;\r\n"
+					+ "              font-weight:bold;\r\n"
 
-                               + "              border: none;\r\n"
+					+ "              padding-left: 5px;\r\n"
 
-                               + "              color: white;\r\n"
+					+ "              }\r\n"
 
-                               + "              font-size:13px;\r\n"
+					+ "\r\n"
 
-                               + "              font-weight:bold;\r\n"
+					+ "              /*SubSection Header level 3*/\r\n"
 
-                               + "              padding-left: 5px;\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionHeader{\r\n"
 
-                               + "              }\r\n"
+					+ "              background-color:white;\r\n"
 
-                               + "\r\n"
+					+ "              border:none;\r\n"
 
-                               + "              /*SubSection Header level 2*/\r\n"
+					+ "              color: #0097ba;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionHeader{\r\n"
+					+ "              font-size:11px;\r\n"
 
-                               + "              background-color: #f5f5f5;\r\n"
+					+ "              font-weight:bold;\r\n"
 
-                               + "              border:1px solid #e6e6e6;\r\n"
+					+ "              padding-left: 5px;\r\n"
 
-                               + "              color: #545559;\r\n"
+					+ "              }\r\n"
 
-                               + "              font-size:12px;\r\n"
+					+ "\r\n"
 
-                               + "              font-weight:bold;\r\n"
+					+ "              /*SubSection Header level 4*/\r\n"
 
-                               + "              padding-left: 5px;\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionHeader{\r\n"
 
-                               + "              }\r\n"
+					+ "              background-color:white;\r\n"
 
-                               + "\r\n"
+					+ "              border:none;\r\n"
 
-                               + "              /*SubSection Header level 3*/\r\n"
+					+ "              color: #545559;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionHeader{\r\n"
+					+ "              font-size:11px;\r\n"
 
-                               + "              background-color:white;\r\n"
+					+ "              font-weight:bold;\r\n"
 
-                               + "              border:none;\r\n"
+					+ "              padding-left: 5px;\r\n"
 
-                               + "              color: #0097ba;\r\n"
+					+ "              }\r\n"
 
-                               + "              font-size:11px;\r\n"
+					+ "\r\n"
 
-                               + "              font-weight:bold;\r\n"
+					+ "              /*SubSection Header level = 5*/\r\n"
 
-                               + "              padding-left: 5px;\r\n"
+					+ "              div.subSectionHeader {\r\n"
 
-                               + "              }\r\n"
+					+ "              background-color:white;\r\n"
 
-                               + "\r\n"
+					+ "              border:none;\r\n"
 
-                               + "              /*SubSection Header level 4*/\r\n"
+					+ "              color: #545559;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionHeader{\r\n"
+					+ "              font-size:11px;\r\n"
 
-                               + "              background-color:white;\r\n"
+					+ "              font-weight:bold;\r\n"
 
-                               + "              border:none;\r\n"
+					+ "              padding-left: 5px;\r\n"
 
-                               + "              color: #545559;\r\n"
+					+ "              }\r\n"
 
-                               + "              font-size:11px;\r\n"
+					+ "\r\n"
 
-                               + "              font-weight:bold;\r\n"
+					+ "              /***************************** SubSection Body *******************************************/\r\n"
 
-                               + "              padding-left: 5px;\r\n"
+					+ "\r\n"
 
-                               + "              }\r\n"
+					+ "              /*SubSection Body level 1*/\r\n"
 
-                               + "\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody {\r\n"
 
-                               + "              /*SubSection Header level = 5*/\r\n"
+					+ "              padding-left:5px;\r\n"
 
-                               + "              div.subSectionHeader {\r\n"
+					+ "              padding-top:5px;\r\n"
 
-                               + "              background-color:white;\r\n"
+					+ "              padding-bottom:5px;\r\n"
 
-                               + "              border:none;\r\n"
+					+ "              padding-right:5px;\r\n"
 
-                               + "              color: #545559;\r\n"
+					+ "              margin-top:0px;\r\n"
 
-                               + "              font-size:11px;\r\n"
+					+ "              margin-bottom:0px;\r\n"
 
-                               + "              font-weight:bold;\r\n"
+					+ "              }\r\n"
 
-                               + "              padding-left: 5px;\r\n"
+					+ "\r\n"
 
-                               + "              }\r\n"
+					+ "              /*SubSection Body level 2*/\r\n"
 
-                               + "\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody{\r\n"
 
-                               + "              /***************************** SubSection Body *******************************************/\r\n"
+					+ "              padding-left:5px;\r\n"
 
-                               + "\r\n"
+					+ "              padding-top:5px;\r\n"
 
-                               + "              /*SubSection Body level 1*/\r\n"
+					+ "              padding-bottom:5px;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody {\r\n"
+					+ "              padding-right:5px;\r\n"
 
-                               + "              padding-left:5px;\r\n"
+					+ "              margin-top:0px;\r\n"
 
-                               + "              padding-top:5px;\r\n"
+					+ "              margin-bottom:0px;\r\n"
 
-                               + "              padding-bottom:5px;\r\n"
+					+ "              }\r\n"
 
-                               + "              padding-right:5px;\r\n"
+					+ "\r\n"
 
-                               + "              margin-top:0px;\r\n"
+					+ "              /*SubSection Body level 3*/\r\n"
 
-                               + "              margin-bottom:0px;\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody{\r\n"
 
-                               + "              }\r\n"
+					+ "              padding-left:15px;\r\n"
 
-                               + "\r\n"
+					+ "              padding-top:0px;\r\n"
 
-                              + "              /*SubSection Body level 2*/\r\n"
+					+ "              padding-bottom:0px;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody{\r\n"
+					+ "              padding-right:0px;\r\n"
 
-                               + "              padding-left:5px;\r\n"
+					+ "              margin-top:2px;\r\n"
 
-                               + "              padding-top:5px;\r\n"
+					+ "              margin-bottom:2px;\r\n"
 
-                               + "              padding-bottom:5px;\r\n"
+					+ "              }\r\n"
 
-                               + "              padding-right:5px;\r\n"
+					+ "\r\n"
 
-                               + "              margin-top:0px;\r\n"
+					+ "              /*SubSection Body level 4*/\r\n"
 
-                               + "              margin-bottom:0px;\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody{\r\n"
 
-                               + "              }\r\n"
+					+ "              padding-left:15px;\r\n"
 
-                               + "\r\n"
+					+ "              padding-top:0px;\r\n"
 
-                               + "              /*SubSection Body level 3*/\r\n"
+					+ "              padding-bottom:0px;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody{\r\n"
+					+ "              padding-right:0px;\r\n"
 
-                               + "              padding-left:15px;\r\n"
+					+ "              margin-top:2px;\r\n"
 
-                               + "              padding-top:0px;\r\n"
+					+ "              margin-bottom:2px;\r\n"
 
-                               + "              padding-bottom:0px;\r\n"
+					+ "              }\r\n"
 
-                               + "              padding-right:0px;\r\n"
+					+ "\r\n"
 
-                               + "              margin-top:2px;\r\n"
+					+ "              /*SubSection Body level = 5*/\r\n"
 
-                               + "              margin-bottom:2px;\r\n"
+					+ "              div.subSectionBody {\r\n"
 
-                               + "              }\r\n"
+					+ "              padding-left:15px;\r\n"
 
-                               + "\r\n"
+					+ "              padding-top:0px;\r\n"
 
-                               + "              /*SubSection Body level 4*/\r\n"
+					+ "              padding-bottom:0px;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody{\r\n"
+					+ "              padding-right:0px;\r\n"
 
-                               + "              padding-left:15px;\r\n"
+					+ "              margin-top:2px;\r\n"
 
-                               + "              padding-top:0px;\r\n"
+					+ "              margin-bottom:2px;\r\n"
 
-                               + "              padding-bottom:0px;\r\n"
+					+ "              }\r\n"
 
-                               + "              padding-right:0px;\r\n"
+					+ "\r\n"
 
-                               + "              margin-top:2px;\r\n"
+					+ "              /***************************** Property *******************************************/\r\n"
 
-                               + "              margin-bottom:2px;\r\n"
+					+ "\r\n"
 
-                               + "              }\r\n"
+					+ "              /*Property level 0*/\r\n"
 
-                               + "\r\n"
+					+ "              div.sectionDiv div.sectionBodyDiv div.property{\r\n"
 
-                               + "              /*SubSection Body level = 5*/\r\n"
+					+ "              margin-left:15px;\r\n"
 
-                               + "              div.subSectionBody {\r\n"
+					+ "              margin-right:15px;\r\n"
 
-                               + "              padding-left:15px;\r\n"
+					+ "              margin-top:2px;\r\n"
 
-                               + "              padding-top:0px;\r\n"
+					+ "              margin-bottom: 2px;\r\n"
 
-                               + "              padding-bottom:0px;\r\n"
+					+ "              padding-bottom: 2px;\r\n"
 
-                               + "              padding-right:0px;\r\n"
+					+ "              padding-top:2px;\r\n"
 
-                               + "              margin-top:2px;\r\n"
+					+ "              border: none;\r\n"
 
-                               + "              margin-bottom:2px;\r\n"
+					+ "              }\r\n"
 
-                               + "              }\r\n"
+					+ "\r\n"
 
-                               + "\r\n"
+					+ "              /*Property level 1*/\r\n"
 
-                               + "              /***************************** Property *******************************************/\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.property{\r\n"
 
-                               + "\r\n"
+					+ "              margin-left:15px;\r\n"
 
-                               + "              /*Property level 0*/\r\n"
+					+ "              margin-right:15px;\r\n"
 
-                               + "              div.sectionDiv div.sectionBodyDiv div.property{\r\n"
+					+ "              margin-top:2px;\r\n"
 
-                               + "              margin-left:15px;\r\n"
+					+ "              margin-bottom: 2px;\r\n"
 
-                               + "              margin-right:15px;\r\n"
+					+ "              padding-bottom: 2px;\r\n"
 
-                               + "              margin-top:2px;\r\n"
+					+ "              padding-top:2px;\r\n"
 
-                               + "              margin-bottom: 2px;\r\n"
+					+ "              border: none;\r\n"
 
-                               + "              padding-bottom: 2px;\r\n"
+					+ "              }\r\n"
 
-                               + "              padding-top:2px;\r\n"
+					+ "\r\n"
 
-                               + "              border: none;\r\n"
+					+ "              /*Property level 2*/\r\n"
 
-                               + "              }\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property {\r\n"
 
-                               + "\r\n"
+					+ "              margin-left:15px;\r\n"
 
-                               + "              /*Property level 1*/\r\n"
+					+ "              margin-right:15px;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.property{\r\n"
+					+ "              margin-top:2px;\r\n"
 
-                               + "              margin-left:15px;\r\n"
+					+ "              margin-bottom: 2px;\r\n"
 
-                               + "              margin-right:15px;\r\n"
+					+ "              padding-bottom: 2px;\r\n"
 
-                               + "              margin-top:2px;\r\n"
+					+ "              padding-top:2px;\r\n"
 
-                               + "              margin-bottom: 2px;\r\n"
+					+ "              border:1px dotted;\r\n"
 
-                               + "              padding-bottom: 2px;\r\n"
+					+ "              }\r\n"
 
-                               + "              padding-top:2px;\r\n"
+					+ "\r\n"
 
-                               + "              border: none;\r\n"
+					+ "              /*Property level 3*/\r\n"
 
-                               + "              }\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property{\r\n"
 
-                               + "\r\n"
+					+ "              margin-left:15px;\r\n"
 
-                               + "              /*Property level 2*/\r\n"
+					+ "              margin-right:15px;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property {\r\n"
+					+ "              margin-top:2px;\r\n"
 
-                               + "              margin-left:15px;\r\n"
+					+ "              margin-bottom: 2px;\r\n"
 
-                               + "              margin-right:15px;\r\n"
+					+ "              padding-bottom: 2px;\r\n"
 
-                               + "              margin-top:2px;\r\n"
+					+ "              padding-top:2px;\r\n"
 
-                               + "              margin-bottom: 2px;\r\n"
+					+ "              border: none;\r\n"
 
-                               + "              padding-bottom: 2px;\r\n"
+					+ "              }\r\n"
 
-                               + "              padding-top:2px;\r\n"
+					+ "\r\n"
 
-                               + "              border:1px dotted;\r\n"
+					+ "              /*Property level = 5*/\r\n"
 
-                               + "              }\r\n"
+					+ "              div.property {\r\n"
 
-                               + "\r\n"
+					+ "              margin-left:15px;\r\n"
 
-                               + "              /*Property level 3*/\r\n"
+					+ "              margin-right:15px;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property{\r\n"
+					+ "              margin-top:2px;\r\n"
 
-                               + "              margin-left:15px;\r\n"
+					+ "              margin-bottom: 2px;\r\n"
 
-                               + "              margin-right:15px;\r\n"
+					+ "              padding-bottom: 2px;\r\n"
 
-                               + "              margin-top:2px;\r\n"
+					+ "              padding-top:2px;\r\n"
 
-                               + "              margin-bottom: 2px;\r\n"
+					+ "              border: none;\r\n"
 
-                               + "              padding-bottom: 2px;\r\n"
+					+ "\r\n"
 
-                               + "              padding-top:2px;\r\n"
+					+ "              }\r\n"
 
-                               + "              border: none;\r\n"
+					+ "\r\n"
 
-                               + "              }\r\n"
+					+ "              /***************************** Property Label *******************************************/\r\n"
 
-                               + "\r\n"
+					+ "\r\n"
 
-                               + "              /*Property level = 5*/\r\n"
+					+ "              /*SubSection Header level 1*/\r\n"
 
-                               + "              div.property {\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.property  div.propertyLabel{\r\n"
 
-                               + "              margin-left:15px;\r\n"
+					+ "              background-color: #85CDDB;\r\n"
 
-                               + "              margin-right:15px;\r\n"
+					+ "              border: none;\r\n"
 
-                               + "              margin-top:2px;\r\n"
+					+ "              padding-left: 5px;\r\n"
 
-                               + "              margin-bottom: 2px;\r\n"
+					+ "              font-size:13px !important;\r\n"
 
-                               + "              padding-bottom: 2px;\r\n"
+					+ "              font-weight:bold;\r\n"
 
-                               + "              padding-top:2px;\r\n"
+					+ "              color: white;\r\n"
 
-                               + "              border: none;\r\n"
+					+ "              float:none;\r\n"
 
-                               + "\r\n"
+					+ "              padding-right:0px !important;\r\n"
 
-                               + "              }\r\n"
+					+ "              }\r\n"
 
-                               + "\r\n"
+					+ "\r\n"
 
-                               + "              /***************************** Property Label *******************************************/\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.property  div.propertyLabel .propertyLabelSpan{\r\n"
 
-                               + "\r\n"
+					+ "              font-size:12px !important;\r\n"
 
-                               + "              /*SubSection Header level 1*/\r\n"
+					+ "              }\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.property  div.propertyLabel{\r\n"
+					+ "\r\n"
 
-                               + "              background-color: #85CDDB;\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.property  div.propertyLabel::after{\r\n"
 
-                               + "              border: none;\r\n"
+					+ "              content: \"\" !important;\r\n"
 
-                               + "              padding-left: 5px;\r\n"
+					+ "              }\r\n"
 
-                               + "              font-size:13px !important;\r\n"
+					+ "\r\n"
 
-                               + "              font-weight:bold;\r\n"
+					+ "\r\n"
 
-                               + "              color: white;\r\n"
+					+ "              /*Property Label level 1*/\r\n"
 
-                               + "              float:none;\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.property  div.propertyLabel{\r\n"
 
-                               + "              padding-right:0px !important;\r\n"
+					+ "              background-color: #f5f5f5;\r\n"
 
-                               + "              }\r\n"
+					+ "              border:1px solid #e6e6e6;\r\n"
 
-                               + "\r\n"
+					+ "              padding-left: 5px;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.property  div.propertyLabel .propertyLabelSpan{\r\n"
+					+ "              font-size:12px !important;\r\n"
 
-                               + "              font-size:12px !important;\r\n"
+					+ "              font-weight:bold;\r\n"
 
-                               + "              }\r\n"
+					+ "              color: #545559;\r\n"
 
-                               + "\r\n"
+					+ "              float:none;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.property  div.propertyLabel::after{\r\n"
+					+ "              padding-right:0px !important;\r\n"
 
-                               + "              content: \"\" !important;\r\n"
+					+ "              }\r\n"
 
-                               + "              }\r\n"
+					+ "\r\n"
 
-                               + "\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.property  div.propertyLabel .propertyLabelSpan{\r\n"
 
-                               + "\r\n"
+					+ "              font-size:12px !important;\r\n"
 
-                               + "              /*Property Label level 1*/\r\n"
+					+ "              }\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.property  div.propertyLabel{\r\n"
+					+ "\r\n"
 
-                               + "              background-color: #f5f5f5;\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.property  div.propertyLabel::after{\r\n"
 
-                               + "              border:1px solid #e6e6e6;\r\n"
+					+ "              content: \"\" !important;\r\n"
 
-                               + "              padding-left: 5px;\r\n"
+					+ "              }\r\n"
 
-                               + "              font-size:12px !important;\r\n"
+					+ "\r\n"
 
-                               + "              font-weight:bold;\r\n"
+					+ "\r\n"
 
-                               + "              color: #545559;\r\n"
+					+ "              /*Property Label level 2*/\r\n"
 
-                               + "              float:none;\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyLabel{\r\n"
 
-                               + "              padding-right:0px !important;\r\n"
+					+ "              background-color:white;\r\n"
 
-                               + "              }\r\n"
+					+ "              border:none;\r\n"
 
-                               + "\r\n"
+					+ "              padding-left: 5px;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.property  div.propertyLabel .propertyLabelSpan{\r\n"
+					+ "              font-size:11px !important;\r\n"
 
-                               + "              font-size:12px !important;\r\n"
+					+ "              font-weight:bold;\r\n"
 
-                               + "              }\r\n"
+					+ "              color: #0097ba;\r\n"
 
-                               + "\r\n"
+					+ "              float: left;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.property  div.propertyLabel::after{\r\n"
+					+ "              padding-right:0px !important;\r\n"
 
-                               + "              content: \"\" !important;\r\n"
+					+ "              }\r\n"
 
-                               + "              }\r\n"
+					+ "\r\n"
 
-                               + "\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyLabel .propertyLabelSpan{\r\n"
 
-                               + "\r\n"
+					+ "              font-size:11px !important;\r\n"
 
-                               + "              /*Property Label level 2*/\r\n"
+					+ "              }\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyLabel{\r\n"
+					+ "\r\n"
 
-                               + "              background-color:white;\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyLabel::after{\r\n"
 
-                               + "              border:none;\r\n"
+					+ "              content: \":\" !important;\r\n"
 
-                               + "              padding-left: 5px;\r\n"
+					+ "              padding-right:5px;\r\n"
 
-                               + "              font-size:11px !important;\r\n"
+					+ "              }\r\n"
 
-                               + "              font-weight:bold;\r\n"
+					+ "\r\n"
 
-                               + "              color: #0097ba;\r\n"
+					+ "              /*Property Label level 3*/\r\n"
 
-                               + "              float: left;\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyLabel{\r\n"
 
-                               + "              padding-right:0px !important;\r\n"
+					+ "              background-color:white;\r\n"
 
-                               + "              }\r\n"
+					+ "              border:none;\r\n"
 
-                               + "\r\n"
+					+ "              padding-left: 5px;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyLabel .propertyLabelSpan{\r\n"
+					+ "              font-size:11px !important;\r\n"
 
-                               + "              font-size:11px !important;\r\n"
+					+ "              font-weight:bold;\r\n"
 
-                               + "              }\r\n"
+					+ "              color: #545559;\r\n"
 
-                               + "\r\n"
+					+ "              float: left;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyLabel::after{\r\n"
+					+ "              padding-right:0px !important;\r\n"
 
-                               + "              content: \":\" !important;\r\n"
+					+ "\r\n"
 
-                               + "              padding-right:5px;\r\n"
+					+ "              }\r\n"
 
-                               + "              }\r\n"
+					+ "\r\n"
 
-                               + "\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyLabel .propertyLabelSpan{\r\n"
 
-                               + "              /*Property Label level 3*/\r\n"
+					+ "              font-size:11px !important;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyLabel{\r\n"
+					+ "              }\r\n"
 
-                               + "              background-color:white;\r\n"
+					+ "\r\n"
 
-                               + "              border:none;\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyLabel::after{\r\n"
 
-                               + "              padding-left: 5px;\r\n"
+					+ "              content: \":\" !important;\r\n"
 
-                               + "              font-size:11px !important;\r\n"
+					+ "              padding-right:5px;\r\n"
 
-                               + "              font-weight:bold;\r\n"
+					+ "              }\r\n"
 
-                               + "              color: #545559;\r\n"
+					+ "\r\n"
 
-                               + "              float: left;\r\n"
+					+ "              /*Property Label level >=4 */\r\n"
 
-                               + "              padding-right:0px !important;\r\n"
+					+ "              div.propertyLabel {\r\n"
 
-                               + "\r\n"
+					+ "              background-color:white;\r\n"
 
-                               + "              }\r\n"
+					+ "              border:none;\r\n"
 
-                               + "\r\n"
+					+ "              padding-left: 5px;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyLabel .propertyLabelSpan{\r\n"
+					+ "              font-size:11px !important;\r\n"
 
-                               + "              font-size:11px !important;\r\n"
+					+ "              font-weight:bold;\r\n"
 
-                               + "              }\r\n"
+					+ "              color: #545559;\r\n"
 
-                               + "\r\n"
+					+ "              float: left;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyLabel::after{\r\n"
+					+ "              padding-right:0px !important;\r\n"
 
-                               + "              content: \":\" !important;\r\n"
+					+ "              }\r\n"
 
-                               + "              padding-right:5px;\r\n"
+					+ "\r\n"
 
-                               + "              }\r\n"
+					+ "              div.propertyLabel .propertyLabelSpan{\r\n"
 
-                               + "\r\n"
+					+ "              font-size:11px !important;\r\n"
 
-                               + "              /*Property Label level >=4 */\r\n"
+					+ "              }\r\n"
 
-                               + "              div.propertyLabel {\r\n"
+					+ "\r\n"
 
-                               + "              background-color:white;\r\n"
+					+ "              div.propertyLabel::after {\r\n"
 
-                               + "              border:none;\r\n"
+					+ "              content: \":\";\r\n"
 
-                               + "              padding-left: 5px;\r\n"
+					+ "              padding-right:5px;\r\n"
 
-                               + "              font-size:11px !important;\r\n"
+					+ "              }\r\n"
 
-                               + "              font-weight:bold;\r\n"
+					+ "\r\n"
 
-                               + "              color: #545559;\r\n"
+					+ "              /***************************** Property Value *******************************************/\r\n"
 
-                               + "              float: left;\r\n"
+					+ "\r\n"
 
-                               + "              padding-right:0px !important;\r\n"
+					+ "              /*SubSection Body level 1*/\r\n"
 
-                               + "              }\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.propertyValue {\r\n"
 
-                               + "\r\n"
+					+ "              padding-left:5px;\r\n"
 
-                              + "              div.propertyLabel .propertyLabelSpan{\r\n"
+					+ "              padding-top:5px;\r\n"
 
-                               + "              font-size:11px !important;\r\n"
+					+ "\r\n"
 
-                               + "              }\r\n"
+					+ "              }\r\n"
 
-                               + "\r\n"
+					+ "\r\n"
 
-                               + "              div.propertyLabel::after {\r\n"
+					+ "              /*Property Value level 1*/\r\n"
 
-                               + "              content: \":\";\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.property  div.propertyValue{\r\n"
 
-                               + "              padding-right:5px;\r\n"
+					+ "              padding-left:5px;\r\n"
 
-                               + "              }\r\n"
+					+ "              padding-top:5px;\r\n"
 
-                               + "\r\n"
+					+ "              }\r\n"
 
-                               + "              /***************************** Property Value *******************************************/\r\n"
+					+ "\r\n"
 
-                               + "\r\n"
+					+ "              /*Property Value level 2*/\r\n"
 
-                               + "              /*SubSection Body level 1*/\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyValue{\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.propertyValue {\r\n"
+					+ "              padding-left:5px;\r\n"
 
-                               + "              padding-left:5px;\r\n"
+					+ "              padding-top:0px;\r\n"
 
-                               + "              padding-top:5px;\r\n"
+					+ "              }\r\n"
 
-                               + "\r\n"
+					+ "\r\n"
 
-                               + "              }\r\n"
+					+ "              /*Property Value level 3*/\r\n"
 
-                               + "\r\n"
+					+ "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyValue{\r\n"
 
-                               + "              /*Property Value level 1*/\r\n"
+					+ "              padding-left:5px;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.property  div.propertyValue{\r\n"
+					+ "              padding-top:0px;\r\n"
 
-                               + "              padding-left:5px;\r\n"
+					+ "              }\r\n"
 
-                               + "              padding-top:5px;\r\n"
+					+ "\r\n"
 
-                               + "              }\r\n"
+					+ "              /*Property Value level = 5*/\r\n"
 
-                               + "\r\n"
+					+ "              div.propertyValue {\r\n"
 
-                               + "              /*Property Value level 2*/\r\n"
+					+ "              padding-left:5px;\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyValue{\r\n"
+					+ "              padding-top:0px;\r\n"
 
-                               + "              padding-left:5px;\r\n"
+					+ "              min-width:15px;\r\n"
 
-                               + "              padding-top:0px;\r\n"
+					+ "              min-height:14px;\r\n"
 
-                               + "              }\r\n"
+					+ "              }\r\n"
 
-                               + "\r\n"
+					+ "\r\n"
 
-                               + "              /*Property Value level 3*/\r\n"
+					+ "\r\n"
 
-                               + "              div.sectionDiv  div.sectionBodyDiv  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.subSection  div.subSectionBody  div.property  div.propertyValue{\r\n"
+					+ "            </style>";
 
-                               + "              padding-left:5px;\r\n"
+			htmlheader += "</head><body>";
 
-                               + "              padding-top:0px;\r\n"
+			String htmlfooter = "</body></html>";
 
-                               + "              }\r\n"
+			printhtml.println(htmlheader);
 
-                               + "\r\n"
+			// start of body
 
-                               + "              /*Property Value level = 5*/\r\n"
+			printhtml.println(
+					"<table width=\"100%\"><tbody><tr id=\"topPage\"><td><div class=\"title\"><h1>Geologic Map of Scale 1:500,000 in "
+							+ columns.get(2) + " - " + columns.get(3)
+							+ "</h1></div></td></tr><tr><td class=\"bline\"></td></tr><tr><td><table width=\"100%\"><tbody><tr><td><div class=\"divTableOfContents\"><h4 xmlns=\"\">Table Of Contents</h4>\r\n"
 
-                               + "              div.propertyValue {\r\n"
+							+ "<ul xmlns=\"\" class=\"ulTableOfContents\">\r\n"
+							+ "<li><h4>General Information</h4></li>\r\n" + "<li><h4>Dataset Information</h4></li>\r\n"
+							+ "<li><h4>Data Fields Description</h4></li>\r\n" + "<tr><td>"
+							+ "<div id=\"generalInformation\" class=\"sectionDiv\">"
+							+ "<div class=\"sectionHeaderDiv\">" + "</div>"
 
-                               + "              padding-left:5px;\r\n"
+							//////////////////////// General Information
+							//////////////////////// //////////////////////////////////////////////////////////
 
-                               + "              padding-top:0px;\r\n"
+							+ "<div class=\"sectionBodyDiv\">"
 
-                               + "              min-width:15px;\r\n"
+							+ "<div xmlns=\"\" class=\"subSection\">\r\n"
 
-                               + "              min-height:14px;\r\n"
+							+ "<div class=\"subSectionHeader\">General Information</div>\r\n"
 
-                               + "              }\r\n"
+							+ "<div class=\"subSectionBody\"><div class=\"property\">\r\n");
 
-                               + "\r\n"
+			printhtml.println(GeneralDatasetInformation);
 
-                               + "\r\n"
+			printhtml.println("</div>\r\n"
 
-                               + "            </style>";
+					+ "</div>\r\n"
 
-            htmlheader+="</head><body>";
+					+ "</div>\r\n"
 
-            String htmlfooter="</body></html>";
+					+ "</div>\r\n"
 
-           
+					///////////////////////////// Dataset Information
+					///////////////////////////// ///////////////////////////////////////////////////
 
-            printhtml.println(htmlheader);
-           
-            // start of body
+					+ "<div class=\"sectionBodyDiv\">"
 
+					+ "<div xmlns=\"\" class=\"subSection\">\r\n"
 
+					+ "<div class=\"subSectionHeader\">Dataset Information</div>\r\n"
 
-            printhtml.println("<table width=\"100%\"><tbody><tr id=\"topPage\"><td><div class=\"title\"><h1>Geologic Map of Scale 1:500,000 in "+columns.get(2)+" - "+columns.get(3)+"</h1></div></td></tr><tr><td class=\"bline\"></td></tr><tr><td><table width=\"100%\"><tbody><tr><td><div class=\"divTableOfContents\"><h4 xmlns=\"\">Table Of Contents</h4>\r\n"
+					+ "<div class=\"subSectionBody\"><div class=\"property\">\r\n");
 
-                    
+			for (int i = 0; i < DatasetInformationFirstRow.size(); i++) {
+				printhtml.println("<div class=\"propertyLabel\"><span class=\"propertyLabelSpan\">"
+						+ DatasetInformationFirstRow.get(i).replace("_", " ") + "</span></div>\r\n"
+						+ "<div class=\"propertyValue\">" + columns.get(i) + "</div>\r\n");
+			}
 
-                               + "<ul xmlns=\"\" class=\"ulTableOfContents\">\r\n"
-                               + "<li><h4>General Information</h4></li>\r\n"
-                               + "<li><h4>Dataset Information</h4></li>\r\n"
-                               + "<li><h4>Data Fields Description</h4></li>\r\n"
-                               + "<tr><td>"        
-                               + "<div id=\"generalInformation\" class=\"sectionDiv\">"
-                               + "<div class=\"sectionHeaderDiv\">"
-                               + "</div>"
+			printhtml.println("</div>"
 
+					+ "</div></div>\r\n"
 
-                               //////////////////////// General Information //////////////////////////////////////////////////////////
+					//////////////////// Data Fields Description
+					//////////////////// ///////////////////////////////////////
 
-                               + "<div class=\"sectionBodyDiv\">"
+					+ "<div class=\"sectionBodyDiv\">"
 
-                               + "<div xmlns=\"\" class=\"subSection\">\r\n"
+					+ "<div xmlns=\"\" class=\"subSection\">\r\n"
 
-                               + "<div class=\"subSectionHeader\">General Information</div>\r\n"
+					+ "<div class=\"subSectionHeader\">Data Fields Description</div>\r\n"
 
-                               + "<div class=\"subSectionBody\"><div class=\"property\">\r\n");
+					+ "<div class=\"subSectionBody\"><div class=\"property\">\r\n"
 
-                               printhtml.println(GeneralDatasetInformation);
+					+ "<table>\r\n"
 
-                               printhtml.println("</div>\r\n"
+					+ "                           <tr>\r\n"
 
-                               + "</div>\r\n"
+					+ "                             <th>Field Name</th>\r\n"
 
-                               + "</div>\r\n"
+					+ "                             <th>Field Explanation</th>\r\n"
 
-                               + "</div>\r\n"
+					+ "                             <th>Field Definition</th>\r\n"
 
-                               ///////////////////////////// Dataset Information ///////////////////////////////////////////////////
-                              
-								+ "<div class=\"sectionBodyDiv\">"
+					+ "                           </tr>\r\n"
 
-                               + "<div xmlns=\"\" class=\"subSection\">\r\n"
+					+ DataFieldsDescriptionTable
 
-                               + "<div class=\"subSectionHeader\">Dataset Information</div>\r\n"
+					+ "                         </table> "
 
-                               + "<div class=\"subSectionBody\"><div class=\"property\">\r\n");
+					+ "</div>"
 
-                              
-       							for(int i=0; i<DatasetInformationFirstRow.size();i++) {
-       								printhtml.println("<div class=\"propertyLabel\"><span class=\"propertyLabelSpan\">"+DatasetInformationFirstRow.get(i).replace("_", " ")+"</span></div>\r\n"
-       										+ "<div class=\"propertyValue\">"+columns.get(i)+"</div>\r\n");
-       							}
-       							
-                                printhtml.println("</div>"
+					+ "</div></div>\r\n"
 
-                                + "</div></div>\r\n"
+					/////////////////////////////////////////////////////////////////////////////////////
 
-                                                                               
-                               //////////////////// Data Fields Description  ///////////////////////////////////////
+					+ "</div>\r\n"
 
-                               + "<div class=\"sectionBodyDiv\">"
+					+ "</div>\r\n"
 
-                               + "<div xmlns=\"\" class=\"subSection\">\r\n"
+					+ "</div>\r\n"
 
-                               + "<div class=\"subSectionHeader\">Data Fields Description</div>\r\n"
+					+ "</div>\r\n"
 
-                               + "<div class=\"subSectionBody\"><div class=\"property\">\r\n"
+					+ "</div>");
 
-                               + "<table>\r\n"
+			// end of body
 
-                               + "                           <tr>\r\n"
+			printhtml.println(htmlfooter);
 
-                               + "                             <th>Field Name</th>\r\n"
+			printhtml.close();
 
-                               + "                             <th>Field Explanation</th>\r\n"
+			htmlfile.close();
 
-                               + "                             <th>Field Definition</th>\r\n"
+		}
 
-                               + "                           </tr>\r\n"
+		catch (Exception e)
 
-                               + DataFieldsDescriptionTable
+		{
+		}
 
-                               + "                         </table> "
-
-                                              
-
-                              
-
-                                
-
-                              
-
-                                                                               
-
-                                                                                + "</div>"
-
-                                                                                + "</div></div>\r\n"
-
-                                                                               
-
-                                                                                /////////////////////////////////////////////////////////////////////////////////////
-
-                                                                                                              
-
-                                                                                + "</div>\r\n"
-
-                                                                                + "</div>\r\n"
-
-                                                                                + "</div>\r\n"
-
-                                                                                + "</div>\r\n"
-
-                                                                                + "</div>");
-
-                                                                               
-
-           
-
-            //end of body
-
-           
-
-            printhtml.println(htmlfooter);
-
-           
-
-                        printhtml.close();
-
-                        htmlfile.close();
-
-                                }
-
-
-                               
-
-                                catch(Exception e)
-
-                                {}
-
-                               
-
-                }
-
+	}
 
 }
