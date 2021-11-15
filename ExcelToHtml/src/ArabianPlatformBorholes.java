@@ -52,6 +52,7 @@ public class ArabianPlatformBorholes {
 			
 			System.out.println("General Information - starting \n\n");
 			
+
 			List<String> GeneralDatasetColumnsFirstRow = new ArrayList<String>();
 
 			List<String> GeneralDatasetColumnsSecondRow = new ArrayList<String>();
@@ -59,6 +60,7 @@ public class ArabianPlatformBorholes {
 			List<String> GeneralDatasetValues = new ArrayList<String>();
 
 			File file = new File(DownloadsPath + GeneralInformationFile);
+
 
 			FileInputStream fis = new FileInputStream(file);
 
@@ -169,13 +171,16 @@ public class ArabianPlatformBorholes {
 
 			//System.out.println("Data Fields Description - starting \n\n");
 			
+
 			StringBuilder DataFieldsDescriptionTable = new StringBuilder();
 			/*
 			 * List<String> DataFieldsDescriptionFieldNames = new ArrayList<String>();
 			 * 
 			 * List<String> DataFieldsDescriptionFieldExplanation = new ArrayList<String>();
 			 * 
+       
 			 * file = new File(DownloadsPath+DataFieldsDescriptionFile);
+
 			 * 
 			 * fis = new FileInputStream(file);
 			 * 
@@ -236,6 +241,7 @@ public class ArabianPlatformBorholes {
 			
 			file = new File(DownloadsPath + DatasetInformationFile);
 
+
 			fis = new FileInputStream(file);
 
 			wb = new XSSFWorkbook(fis);
@@ -261,6 +267,7 @@ public class ArabianPlatformBorholes {
 			System.out.println("Dataset Information - finished \n\n");
 			
 			System.out.println("Creating HTML Files - starting\n\n");
+
 
 			while (itr.hasNext()) {
 				row = itr.next();
@@ -311,6 +318,7 @@ public class ArabianPlatformBorholes {
 		try {
 			
 			System.out.println("DatasetID:"+columns.get(0));
+
 
 			File newFile = new File("c:\\Html Files\\BORHOLES\\" + columns.get(0));
 			newFile.mkdirs();

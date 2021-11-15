@@ -261,6 +261,7 @@ public class ArabianPlatformSamples {
 			
 			System.out.println("Creating HTML Files - starting\n\n");
 
+
 			while (itr.hasNext()) {
 				row = itr.next();
 				createHtmlFile(row, DatasetInformationFirstRow, GeneralDatasetInformation, DataFieldsDescriptionTable);
@@ -268,6 +269,7 @@ public class ArabianPlatformSamples {
 
 			wb.close();
 			System.out.println("\nCreating HTML Files - finished \n\n");
+
 
 		}
 
@@ -308,6 +310,7 @@ public class ArabianPlatformSamples {
 
 		try {
 			System.out.println("DatasetID:"+columns.get(0));
+
 
 			File newFile = new File("c:\\Html Files\\SAMPLES\\" + columns.get(0));
 			newFile.mkdirs();

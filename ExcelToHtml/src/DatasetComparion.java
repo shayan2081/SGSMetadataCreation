@@ -27,6 +27,7 @@ public class DatasetComparion {
 			String DownloadsPath = (String) prop.get("DownloadsPath");
 			DatasetInformationFile = (String) prop.getProperty("DatasetInformationFile");
 
+
 			List<String> DS250 = new ArrayList<String>();
 			List<String> DS500 = new ArrayList<String>();
 			List<String> DS1000 = new ArrayList<String>();
@@ -38,6 +39,7 @@ public class DatasetComparion {
 			// int i=0;
 
 			File file = new File(DownloadsPath + DatasetInformationFile);
+
 			FileInputStream fis = new FileInputStream(file);
 			XSSFWorkbook wb = new XSSFWorkbook(fis);
 			Row row;
@@ -101,6 +103,7 @@ public class DatasetComparion {
 			wb.close();
 
 			file = new File(DownloadsPath + DatasetInformationFile);
+
 			fis = new FileInputStream(file);
 			wb = new XSSFWorkbook(fis);
 			sheet = wb.getSheetAt(0);
@@ -110,6 +113,7 @@ public class DatasetComparion {
 
 				row = itr.next();
 				System.out.println("Dataset ID: "+row.getCell(0).getStringCellValue());
+
 
 				if (DS250.contains(row.getCell(0).getStringCellValue()))
 					row.getCell(15).setCellValue("true");
@@ -150,6 +154,7 @@ public class DatasetComparion {
 			fis.close();
 
 			FileOutputStream outputStream = new FileOutputStream(DownloadsPath + DatasetInformationFile);
+
 			wb.write(outputStream);
 			wb.close();
 			outputStream.close();

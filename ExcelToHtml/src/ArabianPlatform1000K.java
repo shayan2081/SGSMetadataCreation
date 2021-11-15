@@ -29,10 +29,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ArabianPlatform1000K {
 
+
 	static String DownloadsPath;
 	static String GeneralInformationFile;
 	static String DatasetInformationFile;
 	static String DataFieldsDescriptionFile; 
+
 
 	public static void main(String[] args) {
 
@@ -58,6 +60,7 @@ public class ArabianPlatform1000K {
 
 			List<String> GeneralDatasetValues = new ArrayList<String>();
 
+      
 			File file = new File(DownloadsPath + GeneralInformationFile);
 
 			FileInputStream fis = new FileInputStream(file);
@@ -177,6 +180,7 @@ public class ArabianPlatform1000K {
 
 			file = new File(DownloadsPath + DataFieldsDescriptionFile);
 
+
 			fis = new FileInputStream(file);
 
 			wb = new XSSFWorkbook(fis);
@@ -223,6 +227,7 @@ public class ArabianPlatform1000K {
 			
 			file = new File(DownloadsPath + DatasetInformationFile);
 
+
 			fis = new FileInputStream(file);
 
 			wb = new XSSFWorkbook(fis);
@@ -249,6 +254,7 @@ public class ArabianPlatform1000K {
 			System.out.println("Dataset Information - finished \n\n");
 			
 			System.out.println("Creating HTML Files - starting\n\n");
+
 
 			while (itr.hasNext()) {
 				row = itr.next();
@@ -300,6 +306,7 @@ public class ArabianPlatform1000K {
 
 			System.out.println("DatasetID:"+columns.get(0));
 			
+
 			File newFile = new File("c:\\Html Files\\DS_1000K\\" + columns.get(0));
 			newFile.mkdirs();
 			OutputStream htmlfile = new FileOutputStream(

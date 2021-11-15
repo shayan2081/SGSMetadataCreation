@@ -37,6 +37,7 @@ public class ArabianPlatform500K {
 	public static void main(String[] args) {
 
 		try
+
 		{
 
 			Properties prop = new Properties();
@@ -51,6 +52,7 @@ public class ArabianPlatform500K {
 			
 			System.out.println("General Information - starting \n\n");
 
+
 			List<String> GeneralDatasetColumnsFirstRow = new ArrayList<String>();
 
 			List<String> GeneralDatasetColumnsSecondRow = new ArrayList<String>();
@@ -58,6 +60,7 @@ public class ArabianPlatform500K {
 			List<String> GeneralDatasetValues = new ArrayList<String>();
 
 			File file = new File(DownloadsPath + GeneralInformationFile);
+
 
 			FileInputStream fis = new FileInputStream(file);
 
@@ -165,7 +168,6 @@ public class ArabianPlatform500K {
 			itr.next();
 
 			wb.close();
-			
 			System.out.println("General Information - finished \n\n");
 
 			/////////////////////////////////////////////////////////////////////
@@ -175,6 +177,7 @@ public class ArabianPlatform500K {
 			StringBuilder DataFieldsDescriptionTable = new StringBuilder();
 
 			file = new File(DownloadsPath + DataFieldsDescriptionFile);
+
 
 			fis = new FileInputStream(file);
 
@@ -222,6 +225,7 @@ public class ArabianPlatform500K {
 
 			file = new File(DownloadsPath + DatasetInformationFile);
 
+
 			fis = new FileInputStream(file);
 
 			wb = new XSSFWorkbook(fis);
@@ -257,6 +261,7 @@ public class ArabianPlatform500K {
 			wb.close();
 			
 			System.out.println("\nCreating HTML Files - finished \n\n");
+
 
 		}
 
@@ -298,6 +303,7 @@ public class ArabianPlatform500K {
 		try {
 			
 			System.out.println("DatasetID:"+columns.get(0));
+
 
 			File newFile = new File("c:\\Html Files\\DS_500K\\" + columns.get(0));
 			newFile.mkdirs();
