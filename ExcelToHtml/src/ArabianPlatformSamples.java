@@ -32,7 +32,7 @@ public class ArabianPlatformSamples {
 	static String GeneralInformationFile;
 	static String DatasetInformationFile;
 	//static String DataFieldsDescriptionFile;
-
+ 
 	public static void main(String[] args) {
 
 		try

@@ -31,7 +31,7 @@ public class ArabianPlatformBorholes {
 
 	static String DownloadsPath;
 	static String GeneralInformationFile;
-	static String DatasetInformationFile;
+	static String DatasetInformationFile; 
 	//static String DataFieldsDescriptionFile;
 
 	public static void main(String[] args) {

@@ -32,7 +32,7 @@ public class ArabianPlatform2000K {
 	static String DownloadsPath;
 	static String GeneralInformationFile;
 	static String DatasetInformationFile;
-	static String DataFieldsDescriptionFile;
+	static String DataFieldsDescriptionFile; 
 
 	public static void main(String[] args) {
 
