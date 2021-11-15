@@ -29,8 +29,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ArabianPlatformMods {
 
-	static String DownloadsPath = "";
-
+	static String DownloadsPath;
+	static String GeneralInformationFile;
+	static String DatasetInformationFile;
+	static String DataFieldsDescriptionFile;
+ 
 	public static void main(String[] args) {
 
 		try
@@ -42,13 +45,20 @@ public class ArabianPlatformMods {
 			InputStream is = new FileInputStream(System.getProperty("user.dir") + fileName);
 			prop.load(is);
 			DownloadsPath = (String) prop.get("DownloadsPath");
+			GeneralInformationFile = (String) prop.getProperty("Mods_GeneralInformationFile");
+			DatasetInformationFile = (String) prop.getProperty("DatasetInformationFile");
+			DataFieldsDescriptionFile = (String) prop.getProperty("Mods_DataFieldsDescriptionFile");
+			
+			
+			System.out.println("General Information - starting \n\n");
+			
 			List<String> GeneralDatasetColumnsFirstRow = new ArrayList<String>();
 
 			List<String> GeneralDatasetColumnsSecondRow = new ArrayList<String>();
 
 			List<String> GeneralDatasetValues = new ArrayList<String>();
 
-			File file = new File(DownloadsPath + "MODS_minimum_metadata.xlsx");
+			File file = new File(DownloadsPath + GeneralInformationFile);
 
 			FileInputStream fis = new FileInputStream(file);
 
@@ -152,16 +162,19 @@ public class ArabianPlatformMods {
 			}
 
 			wb.close();
+			System.out.println("General Information - finished \n\n");
 
 			/////////////////////////////////////////////////////////////////////
 
+			System.out.println("Data Fields Description - starting \n\n");
+			
 			StringBuilder DataFieldsDescriptionTable = new StringBuilder();
 
 			List<String> DataFieldsDescriptionFieldNames = new ArrayList<String>();
 
 			List<String> DataFieldsDescriptionFieldExplanation = new ArrayList<String>();
 
-			file = new File(DownloadsPath + "MODS 28092021 General - Metadata.xlsx");
+			file = new File(DownloadsPath + DataFieldsDescriptionFile);
 
 			fis = new FileInputStream(file);
 
@@ -213,10 +226,14 @@ public class ArabianPlatformMods {
 			}
 
 			wb.close();
+			
+			System.out.println("Data Fields Description - finished \n\n");
 
 			/////////////////////////////////////////////////////////////////////
 
-			file = new File(DownloadsPath + "NGD_Download_Dataset_Packages.xlsx");
+			System.out.println("Dataset Information - starting \n\n");
+			
+			file = new File(DownloadsPath + DatasetInformationFile);
 
 			fis = new FileInputStream(file);
 
@@ -240,6 +257,10 @@ public class ArabianPlatformMods {
 				count++;
 			}
 
+			System.out.println("Dataset Information - finished \n\n");
+			
+			System.out.println("Creating HTML Files - starting\n\n");
+			
 			while (itr.hasNext()) {
 				row = itr.next();
 				createHtmlFile(row, DatasetInformationFirstRow, GeneralDatasetInformation, DataFieldsDescriptionTable);
@@ -247,6 +268,7 @@ public class ArabianPlatformMods {
 
 			wb.close();
 
+			System.out.println("\nCreating HTML Files - finished \n\n");
 		}
 
 		catch (Exception e)
@@ -263,7 +285,7 @@ public class ArabianPlatformMods {
 			StringBuilder GeneralDatasetInformation, StringBuilder DataFieldsDescriptionTable)
 
 	{
-
+		
 		Iterator<Cell> cellIterator = row.cellIterator();
 
 		List<String> columns = new ArrayList<String>();
@@ -285,7 +307,9 @@ public class ArabianPlatformMods {
 		}
 
 		try {
-
+			
+			System.out.println("DatasetID:"+columns.get(0));
+			
 			File newFile = new File("c:\\Html Files\\MODS\\" + columns.get(0));
 			newFile.mkdirs();
 

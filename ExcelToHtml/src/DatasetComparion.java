@@ -14,6 +14,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class DatasetComparion {
 
+	static String DatasetInformationFile; 
+	
 	public static void main(String[] args) {
 
 		try {
@@ -23,6 +25,8 @@ public class DatasetComparion {
 			InputStream is = new FileInputStream(System.getProperty("user.dir") + fileName);
 			prop.load(is);
 			String DownloadsPath = (String) prop.get("DownloadsPath");
+			DatasetInformationFile = (String) prop.getProperty("DatasetInformationFile");
+
 
 			List<String> DS250 = new ArrayList<String>();
 			List<String> DS500 = new ArrayList<String>();
@@ -34,7 +38,8 @@ public class DatasetComparion {
 
 			// int i=0;
 
-			File file = new File(DownloadsPath + "NGD_Download_Dataset_Packages.xlsx");
+			File file = new File(DownloadsPath + DatasetInformationFile);
+
 			FileInputStream fis = new FileInputStream(file);
 			XSSFWorkbook wb = new XSSFWorkbook(fis);
 			Row row;
@@ -97,7 +102,8 @@ public class DatasetComparion {
 
 			wb.close();
 
-			file = new File(DownloadsPath + "NGD_Download_Dataset_Packages.xlsx");
+			file = new File(DownloadsPath + DatasetInformationFile);
+
 			fis = new FileInputStream(file);
 			wb = new XSSFWorkbook(fis);
 			sheet = wb.getSheetAt(0);
@@ -106,7 +112,8 @@ public class DatasetComparion {
 			while (itr.hasNext()) {
 
 				row = itr.next();
-				System.out.println(row.getCell(0).getStringCellValue());
+				System.out.println("Dataset ID: "+row.getCell(0).getStringCellValue());
+
 
 				if (DS250.contains(row.getCell(0).getStringCellValue()))
 					row.getCell(15).setCellValue("true");
@@ -146,7 +153,8 @@ public class DatasetComparion {
 
 			fis.close();
 
-			FileOutputStream outputStream = new FileOutputStream(DownloadsPath + "NGD_Download_Dataset_Packages.xlsx");
+			FileOutputStream outputStream = new FileOutputStream(DownloadsPath + DatasetInformationFile);
+
 			wb.write(outputStream);
 			wb.close();
 			outputStream.close();
